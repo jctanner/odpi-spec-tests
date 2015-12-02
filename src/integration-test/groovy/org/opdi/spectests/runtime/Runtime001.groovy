@@ -7,6 +7,12 @@ import org.junit.Test;
 
 public class Runtime001 {
 
+    /* All previously named environment variables mentioned in this section 
+    MUST be either explicitly set or readable via running the appropriate 
+    bin command with the envvars parameter. In the situation where these 
+    variables are not explicitly set, the appropriate commands MUST be 
+    available on the path. For example, hadoop envvars should provide 
+    output similar to the following ... */
 
     @Before
     public void setUp() {
@@ -14,7 +20,7 @@ public class Runtime001 {
     }
 
     @Test
-    public void systemvars() {
+    public void systemenvvars() {
 
         // https://github.com/apache/hadoop/blob/0bc15cb6e60dc60885234e01dec1c7cb4557a926/hadoop-common-project/hadoop-common/src/main/bin/hadoop-layout.sh.example
 
@@ -51,7 +57,7 @@ public class Runtime001 {
     }
 
     @Test
-    public void hadoopvars() {
+    public void hadoopenvvars() {
 
         // https://issues.apache.org/jira/browse/HADOOP-12366
 
