@@ -40,13 +40,12 @@ public class Runtime002 {
     @Test
     public void hadoopversioncheck() {
 
+        /////////////////////////////////////////////////////
+        // Check Hadoop API version strings  
+        /////////////////////////////////////////////////////
+
         /* https://hadoop.apache.org/docs/r1.2.1/api/org/apache/hadoop/util/VersionInfo.html */
 
-        // call the hadoop api to get the version
-        //HDFSClient client = new HDFSClient();
-        //org.apache.hadoop.util.VersionInfo vinfo = new org.apache.hadoop.util.VersionInfo()
-
-        // validate that version string matches requirements
 
         java.lang.String src = ""
         src += "import org.apache.hadoop.util.VersionInfo;\n"
@@ -64,7 +63,22 @@ public class Runtime002 {
         src += "}\n"
 
         def eg = new org.odpi.helpers.ExternalJava("HadoopAPIVersion", src)
-        eg.execute()
+        def cres = eg.compile()
+        assert cres[0] == 0 : "compiling hadoopapiversion failed"
+        def eres = eg.execute()
+        assert eres[0] == 0 : "running hadoopapiversion failed"
+
+        def vmap = [:]
+        eres[1].split('\n').each{ x ->
+            if ( x.contains('=') ) {
+                def parts = x.split('=')
+                vmap[parts[0]] = parts[1]
+            }
+        }
+        println "### version map ..."
+        println vmap
+
+        // How do I know what the vendor substring should be? ...
 
     }
 

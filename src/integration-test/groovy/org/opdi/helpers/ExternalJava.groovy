@@ -6,6 +6,8 @@ public class ExternalJava {
     def classfile
     def classname
     def sourcecode
+    def codefilename
+    def codefilepath
 
     public ExternalJava(java.lang.String classname, java.lang.String sourcecode) {
 
@@ -18,7 +20,12 @@ public class ExternalJava {
         println this.tempdirpath
         this.classname = classname
         this.sourcecode = sourcecode
-        
+
+        // write out the code
+        this.codefilename = this.classname + ".java"
+        this.codefilepath = [this.tempdirpath, this.codefilename].join(File.separator)
+        new File(this.codefilepath).withWriter{ it << this.sourcecode } 
+       
     }
 
     def gethadoopclasspath() {
@@ -37,37 +44,49 @@ public class ExternalJava {
     }
 
     def locatejavac() {
-        def javacbin = "/bin/javac"
+        def javacbin = "javac"
         return javacbin
     }
 
-    def execute() {
+    def compile() {
+
+        ////////////////////////////////////////////////
+        //  COMPILE
+        ////////////////////////////////////////////////
 
         def groovybin = locategroovy()
         def javabin = locatejava()
         def javacbin = locatejavac()
         def hcp = gethadoopclasspath()
 
-        // write out the code
-        def codefilename = this.classname + ".java"
-        def codefilepath = [this.tempdirpath, codefilename].join(File.separator)
-        new File(codefilepath).withWriter{ it << this.sourcecode } 
-
-        ////////////////////////////////////////////////
-        //  COMPILE
-        ////////////////////////////////////////////////
-
-        println "Compiling file: " + codefilepath
+        println "Compiling file: " + this.codefilepath
         //def cmd = "" + javacbin + " -version"
-        def ccmd = "" + javacbin + " -classpath " + hcp + " " + codefilepath
+        def ccmd = "" + javacbin + " -classpath " + hcp + " " + this.codefilepath
         println ccmd
 
         def cprocess = new ProcessBuilder(ccmd.split()).redirectErrorStream(true).start()
-        cprocess.inputStream.eachLine {println it}
+        def output = ""
+        cprocess.inputStream.eachLine {
+            output += it
+            println it
+        }
+
+        cprocess.waitFor()
+        def rc = cprocess.exitValue()
+        println "RC: " + rc
+        return [rc, output, ""]
+    }
+
+    def execute() {
 
         ////////////////////////////////////////////////
         //  EXECUTE
         ////////////////////////////////////////////////
+
+        def groovybin = locategroovy()
+        def javabin = locatejava()
+        def javacbin = locatejavac()
+        def hcp = gethadoopclasspath()
 
         println "Run class: " + this.classname
         //def cmd = "" + javacbin + " -version"
@@ -76,9 +95,15 @@ public class ExternalJava {
         println rcmd
 
         def rprocess = new ProcessBuilder(rcmd.split()).redirectErrorStream(true).start()
-        rprocess.inputStream.eachLine {println it}
-
-       
+        def output = ""
+        rprocess.inputStream.eachLine{
+            output += it + "\n"
+            println it
+        }
+        rprocess.waitFor()
+        def rc = rprocess.exitValue()
+        println "RC: " + rc
+        return [rc, output, ""]
 
     }
 
