@@ -39,13 +39,26 @@ public class ExternalJava {
     }
 
     def locatejava() {
-        def javabin = "java"
-        return javabin
+        // what is $JAVA_HOME ?
+        def env = System.getenv()
+        String JAVA_HOME = env['JAVA_HOME']
+
+        // what is the full path to java ?
+        def javacmd = [JAVA_HOME, 'bin', 'java'].join(File.separator)
+
+        return javacmd
+
     }
 
     def locatejavac() {
-        def javacbin = "javac"
-        return javacbin
+        // what is $JAVA_HOME ?
+        def env = System.getenv()
+        String JAVA_HOME = env['JAVA_HOME']
+
+        // what is the full path to java ?
+        def javacmd = [JAVA_HOME, 'bin', 'javac'].join(File.separator)
+
+        return javacmd
     }
 
     def compile() {
