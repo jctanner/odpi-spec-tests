@@ -79,9 +79,10 @@ public class Runtime001 {
         }
 
         def evars = ['JAVA_HOME', 
-                     'HADOOP_MAPRED_HOME',
-                     'MAPRED_DIR',
-                     'MAPRED_LIB_JARS_DIR',
+                     'HADOOP_COMMON_HOME',
+                     'HADOOP_COMMON_DIR',
+                     'HADOOP_COMMON_LIB_JARS_DIR',
+                     'HADOOP_COMMON_LIB_NATIVE_DIR',
                      'HADOOP_CONF_DIR',
                      'HADOOP_TOOLS_PATH' ]
 

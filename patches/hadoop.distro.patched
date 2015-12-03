@@ -144,13 +144,14 @@ case $COMMAND in
         echo "Error: No command named \`$COMMAND' was found. Perhaps you meant \`hadoop ${COMMAND#-}'"
         exit 1
     elif [ "$COMMAND" = "envvars" ] ; then
-        echo "JAVA_HOME='${JAVA_HOME}'"
-        echo "HADOOP_MAPRED_HOME='${HADOOP_MAPRED_HOME}'"
-        echo "MAPRED_DIR='${MAPRED_DIR}'"
-        echo "MAPRED_LIB_JARS_DIR='${MAPRED_LIB_JARS_DIR}'"
-        echo "HADOOP_CONF_DIR=${HADOOP_CONF_DIR}'"
-        echo "HADOOP_TOOLS_PATH='${TOOL_PATH}'"
-        exit 0        
+      echo "JAVA_HOME='${JAVA_HOME}'"
+      echo "HADOOP_COMMON_HOME='${HADOOP_COMMON_HOME}'"
+      echo "HADOOP_COMMON_DIR='${HADOOP_COMMON_DIR}'"
+      echo "HADOOP_COMMON_LIB_JARS_DIR='${HADOOP_COMMON_LIB_JARS_DIR}'"
+      echo "HADOOP_COMMON_LIB_NATIVE_DIR='${HADOOP_COMMON_LIB_NATIVE_DIR}'"
+      echo "HADOOP_CONF_DIR='${HADOOP_CONF_DIR}'"
+      echo "HADOOP_TOOLS_PATH='${TOOL_PATH}'"
+      exit 0
     else
       CLASS=$COMMAND
     fi
