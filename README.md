@@ -18,3 +18,9 @@ cd patches
 6. git clone https://github.com/jctanner/odpi-spec-tests.git
 7. cd odpi-spec-tests
 8. ./runtests.sh
+
+## Test filtering
+
+```shell
+./runtests.sh --tests org.odpi.spectests.runtime.Runtime000
+````

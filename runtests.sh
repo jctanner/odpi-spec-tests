@@ -59,7 +59,8 @@ if [ ! -s ~/bin/groovy ]; then
 fi
 
 
-gradle build --info
+rm -rf build
+gradle integrationtest --info $@
 RC=$?
 
 echo "#####################################################"
