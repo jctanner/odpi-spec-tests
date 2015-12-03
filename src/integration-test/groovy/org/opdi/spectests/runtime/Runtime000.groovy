@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.odpi.helpers.ExternalCommand
+import org.odpi.helpers.ExternalJava
 
 /*
 Applications on Unix platforms need to understand the base specification of some key components of which they write software. Two of those components are the Java runtime environment and the shell environment.
@@ -42,7 +43,7 @@ public class Runtime000 {
         src += "    }\n"
         src += "}\n"
 
-        def eg = new org.odpi.helpers.ExternalJava("CheckJavaVersion", src)
+        def eg = new ExternalJava("CheckJavaVersion", src)
         def cres = eg.compile()
         assert cres[0] == 0 : "compiling checkjavaversion failed"
         def eres = eg.execute()
@@ -56,6 +57,36 @@ public class Runtime000 {
         assert ((jversion[1].toInteger() == 7) || (jversion[1].toInteger() == 8)) : "java version is " + jversion[1]
 
     }
+
+    @Test
+    public void checkbashversion() {
+
+        /*
+        [testuser1@sandbox odpi-spec-tests]$ bash --version
+        GNU bash, version 4.2.46(1)-release (x86_64-redhat-linux-gnu)
+        Copyright (C) 2011 Free Software Foundation, Inc.
+        License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+        This is free software; you are free to change and redistribute it.
+        There is NO WARRANTY, to the extent permitted by law.
+        */
+
+        // Does this imply that the tests should only be run from cygwin?
+
+       def ec = new org.odpi.helpers.ExternalCommand("bash --version")
+       def res = ec.execute()
+
+        println res
+        def lines = res[1].split("\n")
+        def parts = lines[0].split()
+        println parts
+        def bashversion = parts[3].tokenize(".")
+
+        // [4, 2, 46(1)-release]
+        println bashversion
+
+    }
+
 
 
     @After
