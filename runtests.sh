@@ -65,4 +65,4 @@ RC=$?
 echo "#####################################################"
 echo "                 RESULTS XML"
 echo "#####################################################"
-cat build/test-results/*
+cat build/test-results/*.xml | fgrep '<testsuite name='

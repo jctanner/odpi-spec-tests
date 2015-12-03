@@ -14,7 +14,7 @@ public class ExternalCommand {
         def process = new ProcessBuilder(this.cmd.split()).redirectErrorStream(true).start()
         def output = ""
         process.inputStream.eachLine {
-            output += it
+            output += it + "\n"
         }
 
         process.waitFor()

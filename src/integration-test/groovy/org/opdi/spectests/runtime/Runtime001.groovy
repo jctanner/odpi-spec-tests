@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.odpi.helpers.ExternalCommand
+
 
 public class Runtime001 {
 
@@ -61,37 +63,26 @@ public class Runtime001 {
 
         // https://issues.apache.org/jira/browse/HADOOP-12366
 
-
-        assert "hadoop envvars".execute().exitValue() == 0 : "hadoop envvars failed"
-        def output = "hadoop envvars".execute().text
-
-        /*
-        def output = "JAVA_HOME=foobar\n"
-        output += "HADOOP_COMMON_HOME=foobaz\n"
-        */
+        def thiscmd = "hadoop envvars"
+        def ec = new org.odpi.helpers.ExternalCommand(thiscmd)
+        def res = ec.execute()
+        assert res[0] == 0 : thiscmd + " failed to run"
 
         // tokenize the output to a hashmap
         def varmap = [:]
-        output.split().each { x ->
-            if ( x.contains('=') )
-                def parts = x.tokenize('=')
+        res[1].split("\n").each { x ->
+            if ( x.contains('=') ) {
+                def parts = x.split('=')
+                println parts
                 varmap[parts[0]] = parts[1]
+            }
         }
 
         def evars = ['JAVA_HOME', 
-                     'HADOOP_COMMON_HOME', 
-                     'HADOOP_COMMON_DIR', 
-                     'HADOOP_COMMON_LIB_JARS_DIR',
-                     'HADOOP_CONF_DIR',
-                     'HADOOP_HDFS_HOME',
-                     'HDFS_DIR',
-                     'HDFS_LIB_JARS_DIR',
-                     'HADOOP_YARN_HOME',
-                     'YARN_DIR',
-                     'YARN_LIB_JARS_DIR',
                      'HADOOP_MAPRED_HOME',
                      'MAPRED_DIR',
                      'MAPRED_LIB_JARS_DIR',
+                     'HADOOP_CONF_DIR',
                      'HADOOP_TOOLS_PATH' ]
 
         def failures = 0
@@ -111,6 +102,141 @@ public class Runtime001 {
         assert failures == 0
 
     }
+
+    @Test
+    public void hdfsenvvars() {
+        // https://issues.apache.org/jira/browse/HADOOP-12366
+
+        def thiscmd = "hdfs envvars"
+        def ec = new org.odpi.helpers.ExternalCommand(thiscmd)
+        def res = ec.execute()
+        assert res[0] == 0 : thiscmd + " failed to run"
+
+        // tokenize the output to a hashmap
+        def varmap = [:]
+        res[1].split("\n").each { x ->
+            if ( x.contains('=') ) {
+                def parts = x.split('=')
+                println parts
+                varmap[parts[0]] = parts[1]
+            }
+        }
+
+        def evars = ['JAVA_HOME', 
+                     'HADOOP_HDFS_HOME',
+                     'HDFS_DIR',
+                     'HDFS_LIB_JARS_DIR',
+                     'HADOOP_CONF_DIR',
+                     'HADOOP_TOOLS_PATH' ]
+
+        def failures = 0
+        evars.each{ x ->
+
+            def setvalue = System.getenv(x)
+
+            try {
+                assert varmap.containsKey(x) : x + " is not set"
+                println x + " is set"
+            } catch ( AssertionError e) {
+                failures += 1
+                println x + " is not set"
+            }
+        }
+
+        assert failures == 0
+
+    }
+
+
+    @Test
+    public void mapredenvvars() {
+        // https://issues.apache.org/jira/browse/HADOOP-12366
+
+        def thiscmd = "mapred envvars"
+        def ec = new org.odpi.helpers.ExternalCommand(thiscmd)
+        def res = ec.execute()
+        assert res[0] == 0 : thiscmd + " failed to run"
+
+        // tokenize the output to a hashmap
+        def varmap = [:]
+        res[1].split("\n").each { x ->
+            if ( x.contains('=') ) {
+                def parts = x.split('=')
+                println parts
+                varmap[parts[0]] = parts[1]
+            }
+        }
+
+        def evars = ['JAVA_HOME', 
+                     'HADOOP_MAPRED_HOME',
+                     'MAPRED_DIR',
+                     'MAPRED_LIB_JARS_DIR',
+                     'HADOOP_CONF_DIR',
+                     'HADOOP_TOOLS_PATH' ]
+
+        def failures = 0
+        evars.each{ x ->
+
+            def setvalue = System.getenv(x)
+
+            try {
+                assert varmap.containsKey(x) : x + " is not set"
+                println x + " is set"
+            } catch ( AssertionError e) {
+                failures += 1
+                println x + " is not set"
+            }
+        }
+
+        assert failures == 0
+
+    }
+
+    @Test
+    public void yarnenvvars() {
+        // https://issues.apache.org/jira/browse/HADOOP-12366
+
+        def thiscmd = "yarn envvars"
+        def ec = new org.odpi.helpers.ExternalCommand(thiscmd)
+        def res = ec.execute()
+        assert res[0] == 0 : thiscmd + " failed to run"
+
+        // tokenize the output to a hashmap
+        def varmap = [:]
+        res[1].split("\n").each { x ->
+            if ( x.contains('=') ) {
+                def parts = x.split('=')
+                println parts
+                varmap[parts[0]] = parts[1]
+            }
+        }
+
+        def evars = ['JAVA_HOME', 
+                     'HADOOP_YARN_HOME',
+                     'YARN_DIR',
+                     'YARN_LIB_JARS_DIR',
+                     'HADOOP_CONF_DIR',
+                     'HADOOP_TOOLS_PATH' ]
+
+        def failures = 0
+        evars.each{ x ->
+
+            def setvalue = System.getenv(x)
+
+            try {
+                assert varmap.containsKey(x) : x + " is not set"
+                println x + " is set"
+            } catch ( AssertionError e) {
+                failures += 1
+                println x + " is not set"
+            }
+        }
+
+        assert failures == 0
+
+    }
+
+
 
     @After
     public void tearDown() {

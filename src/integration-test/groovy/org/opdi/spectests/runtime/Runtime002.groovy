@@ -1,8 +1,5 @@
 package org.odpi.spectests.runtime;
 
-import groovy.lang.GroovyClassLoader;
-import groovy.lang.GroovyObject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
