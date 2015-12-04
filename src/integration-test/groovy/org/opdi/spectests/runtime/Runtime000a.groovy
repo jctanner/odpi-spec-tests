@@ -35,15 +35,18 @@ public class Runtime000a {
 
         /*
         [testuser1@sandbox odpi-spec-tests]$ hadoop checknative -a
-        15/12/03 04:54:54 INFO bzip2.Bzip2Factory: Successfully loaded & initialized native-bzip2 library system-native
-        15/12/03 04:54:54 INFO zlib.ZlibFactory: Successfully loaded & initialized native-zlib library
+        15/12/03 04:54:54 INFO bzip2.Bzip2Factory: Successfully loaded & 
+            initialized native-bzip2 library system-native
+        15/12/03 04:54:54 INFO zlib.ZlibFactory: Successfully loaded & 
+            initialized native-zlib library
         Native library checking:
         hadoop:  true /usr/odp/0.9.0.1-55/hadoop/lib/native/libhadoop.so.1.0.0
         zlib:    true /lib64/libz.so.1
         snappy:  true /usr/odp/0.9.0.1-55/hadoop/lib/native/libsnappy.so.1
         lz4:     true revision:99
         bzip2:   true /lib64/libbz2.so.1
-        openssl: false Cannot load libcrypto.so (libcrypto.so: cannot open shared object file: No such file or directory)!
+        openssl: false Cannot load libcrypto.so (libcrypto.so: cannot open s
+            hared object file: No such file or directory)!
         */
 
 
@@ -84,6 +87,20 @@ public class Runtime000a {
 
     }
 
+    @Test
+    public void checkhdfsnativebuild() {
+        // How do you test for this?
+    }
+
+    @Test
+    public void checkyarnnativebuild() {
+        // How do you test for this?
+    }
+
+    @Test
+    public void checkmapreducenativebuild() {
+        // How do you test for this?
+    }
 
     @After
     public void tearDown() {
